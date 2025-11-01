@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Secreto del Amor 💜</title>
+<style>
+  :root {
+    --violet-light: #e8d9ff;
+    --violet: #a45eff;
+    --violet-dark: #5e2ca5;
+    --accent: #b279ff;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: radial-gradient(circle at 30% 20%, #f9f6ff 0%, #e8d9ff 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: auto;
+  }
+
+  .container {
+    position: relative;
+    width: 95%;
+    max-width: 620px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .15);
+    padding: 25px;
+    text-align: center;
+    z-index: 1;
+  }
+
+  /* 🍃 lluvia de hojas violetas */
+  .leaves {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .leaf {
+    position: absolute;
+    top: -10%;
+    width: 22px;
+    height: 22px;
+    background: radial-gradient(circle at 30% 20%, #d5a6ff 0%, #a45eff 80%);
+    border-radius: 50% 0 50% 0;
+    transform: rotate(45deg);
+    opacity: 0.8;
+    animation: fall 7s linear infinite;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg) scale(1); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg) scale(1.1); opacity: 0; }
+  }
+
+  /* ✨ título principal */
+  .mainTitle {
+    font-family: "Great Vibes", cursive;
+    font-size: 30px;
+    color: var(--violet-dark);
+    text-shadow: 0 0 8px #c9a6ff, 0 0 12px #b279ff;
+    animation: glow 3s ease-in-out infinite alternate;
+    margin-bottom: 12px;
+  }
+  @keyframes glow {
+    from { text-shadow: 0 0 8px #c9a6ff, 0 0 12px #b279ff; }
+    to { text-shadow: 0 0 20px #e8d9ff, 0 0 28px #b279ff; }
+  }
+
+  .title {
+    color: var(--violet-dark);
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  /* 🔒 candado */
+  .padlock {
+    width: 120px;
+    height: 120px;
+    margin: auto;
+    background: linear-gradient(180deg, #fff 0%, #ebd9ff 100%);
+    border-radius: 16px;
+    position: relative;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .6s;
+  }
+  .padlock .shackle {
+    position: absolute;
+    top: -38px;
+    left: 50%;
+    width: 80px;
+    height: 72px;
+    transform: translateX(-50%);
+    border: 8px solid #d4b0ff;
+    border-bottom: none;
+    border-radius: 60px 60px 0 0;
+    transition: .6s;
+  }
+  .padlock.open .shackle { transform: translateX(-50%) rotate(-30deg); top: -10px; }
+  .padlock.open { transform: scale(.9); opacity: .9; }
+
+  .keyhole {
+    width: 26px;
+    height: 32px;
+    background: radial-gradient(circle at 40% 30%, var(--violet) 0%, var(--violet-dark) 60%);
+    border-radius: 8px;
+  }
+
+  /* controles */
+  .controls {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+  .controls input {
+    padding: 10px;
+    border: 2px solid #d4b0ff;
+    border-radius: 8px;
+    width: 150px;
+    font-size: 16px;
+  }
+  .controls button {
+    background: var(--violet);
+    border: none;
+    color: white;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 5px 14px rgba(164, 94, 255, 0.25);
+  }
+
+  .wrong {
+    display: none;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f6eaff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 2px solid #c9a6ff;
+    color: var(--violet-dark);
+    font-weight: 600;
+  }
+
+  /* 🧩 puzzle */
+  .puzzleArea {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+  }
+  .introText {
+    color: var(--violet-dark);
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  .grid {
+    width: 95%;
+    max-width: 480px;
+    aspect-ratio: 1/1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .tile {
+    background-size: 300% 300%;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: .15s;
+  }
+  .tile:active { transform: scale(.97); }
+
+  .success {
+    display: none;
+    margin-top: 12px;
+    font-weight: 700;
+    color: var(--violet-dark);
+    background: #f3e6ff;
+    padding: 10px 14px;
+    border-radius: 10px;
+  }
+
+  footer {
+    margin-top: 16px;
+    font-size: 13px;
+    color: #7e60a6;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="leaves" id="leaves"></div>
+
+  <h1 class="mainTitle">Para la Mujer más Bella Yessica 💜</h1>
+  <h2 class="title">Secreto del Amor 💜</h2>
+
+  <div class="padlock" id="padlock">
+    <div class="shackle"></div>
+    <div class="keyhole"></div>
+  </div>
+  <div class="controls" id="controls">
+    <input id="pwd" type="password" placeholder="Contraseña">
+    <button id="btn">Entrar</button>
+  </div>
+  <div class="wrong" id="wrong">TU NO ERES MI AMOR 💔</div>
+
+  <div class="puzzleArea" id="puzzle">
+    <div class="introText">Amor, arma el rompecabezas. Te deseo suerte, mi amor 💜</div>
+    <div class="grid" id="grid"></div>
+    <div class="success" id="done">
+      💜 ¡Lo lograste, amor! 💜<br>Te debo una cena 🌃 — tú pon día, lugar y hora 💋 te amo.
+    </div>
+  </div>
+
+  <footer>© 2025 <b>Sheriko — Our Style</b>. Todos los derechos reservados.</footer>
+</div>
+
+<!-- 🎵 Música romántica -->
+<audio id="music" loop>
+  <source src="https://www.dropbox.com/scl/fi/4c2sgfbzrm2e3w0pw0sgk/nataly-mp3cut.net.mp3?rlkey=04kj0wknfa524r7tz58fw5vuk&raw=1" type="audio/mpeg">
+</audio>
+
+<script>
+const PASSWORD = "221995";
+const IMG = "https://i.imgur.com/5nVk911.jpeg";
+const grid = document.getElementById("grid");
+const puzzle = document.getElementById("puzzle");
+const done = document.getElementById("done");
+const padlock = document.getElementById("padlock");
+const controls = document.getElementById("controls");
+const wrong = document.getElementById("wrong");
+const music = document.getElementById("music");
+
+/* 🌿 hojas violetas */
+const leaves = document.getElementById("leaves");
+for (let i = 0; i < 25; i++) {
+  const leaf = document.createElement("div");
+  leaf.className = "leaf";
+  const size = 14 + Math.random() * 26;
+  leaf.style.width = leaf.style.height = size + "px";
+  leaf.style.left = Math.random() * 100 + "%";
+  leaf.style.animationDuration = 5 + Math.random() * 6 + "s";
+  leaf.style.animationDelay = Math.random() * -8 + "s";
+  leaf.style.opacity = 0.5 + Math.random() * 0.5;
+  leaf.style.background = `radial-gradient(circle at 30% 20%, #cba6ff 0%, #8f55ff 80%)`;
+  leaf.style.transform = `rotate(${Math.random() * 60}deg)`;
+  leaves.appendChild(leaf);
+}
+
+/* 🔐 candado */
+document.getElementById("btn").onclick = check;
+document.getElementById("pwd").onkeydown = e => {
+  if (e.key === "Enter") check();
+};
+
+function check() {
+  const val = document.getElementById("pwd").value.trim();
+  if (val === PASSWORD) unlock();
+  else {
+    wrong.style.display = "block";
+    setTimeout(() => wrong.style.display = "none", 1400);
+  }
+}
+
+function unlock() {
+  padlock.classList.add("open");
+  controls.style.display = "none";
+  setTimeout(() => {
+    puzzle.style.display = "flex";
+    music.play().catch(()=>{});
+  }, 500);
+  makePuzzle();
+}
+
+/* 🧩 rompecabezas */
+const SIZE = 3;
+function makePuzzle() {
+  grid.innerHTML = "";
+  let arr = [...Array(SIZE * SIZE).keys()];
+  arr.sort(() => Math.random() - 0.5);
+  if (arr.every((v, i) => v === i)) arr.reverse();
+
+  for (let pos = 0; pos < arr.length; pos++) {
+    const id = arr[pos];
+    const tile = document.createElement("div");
+    tile.className = "tile";
+    tile.dataset.correct = id;
+    tile.dataset.position = pos;
+    tile.style.backgroundImage = `url(${IMG})`;
+    tile.style.backgroundSize = `${SIZE * 100}% ${SIZE * 100}%`;
+    const r = Math.floor(id / SIZE), c = id % SIZE;
+    tile.style.backgroundPosition = `${(c / (SIZE - 1)) * 100}% ${(r / (SIZE - 1)) * 100}%`;
+    tile.onclick = () => clickTile(tile);
+    grid.appendChild(tile);
+  }
+  updateOrder();
+}
+
+let first = null;
+function clickTile(t) {
+  if (!first) {
+    first = t;
+    t.style.outline = "3px solid #d2b2ff";
+    return;
+  }
+  if (first === t) {
+    first.style.outline = "";
+    first = null;
+    return;
+  }
+  const a = first.dataset.position, b = t.dataset.position;
+  first.dataset.position = b; t.dataset.position = a;
+  first.style.outline = ""; first = null;
+  updateOrder(); checkWin();
+}
+
+function updateOrder() {
+  [...grid.children].forEach(e => e.style.order = e.dataset.position);
+}
+function checkWin() {
+  const all = [...grid.children];
+  if (all.every(e => e.dataset.position === e.dataset.correct)) {
+    done.style.display = "block";
+    all.forEach(e => e.style.pointerEvents = "none");
+  }
+}
+</script>
+</body>
+</html>
